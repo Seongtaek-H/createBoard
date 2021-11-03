@@ -81,14 +81,14 @@ public class BoardDAO {
 		return flag;
 	}
 	
-	public boolean removeArticle(BoardVO vo) {
+	public boolean removeArticle(int no) {
 		boolean flag=false;
 		String sql = "delete from board where articleNO=?";
 		Connection con = ConnectionController.getConnection();
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, vo.getNo());
+			pstmt.setInt(1, no);
 			int affectedCount = pstmt.executeUpdate();
 			if(affectedCount>0) {
 				flag=true;

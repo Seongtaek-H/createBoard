@@ -31,9 +31,9 @@ public class BoardService {
 		return flag;
 	}
 	
-	public boolean delete(BoardVO vo) {
+	public boolean deleteArticle(int no) {
 		boolean flag = false;
-		flag = boardDAO.removeArticle(vo)
+		flag = boardDAO.removeArticle(no);
 		return flag;
 	}
 }

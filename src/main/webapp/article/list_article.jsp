@@ -30,8 +30,8 @@
 		<td><%=vo.getId() %></td>
 		<td><%=vo.getWriteDate() %></td>
 		<td>
-			<input type="button" value="수정"/>
-			<input type="button" value="삭제"/>
+			<button>수정</button>
+			<a href="/Board/board?cmd=delete&articleNO=<%= vo.getNo()%>">삭제</a>
 		</td>
 	</tr>
 <%} %>

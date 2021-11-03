@@ -58,7 +58,13 @@ public class BoardController extends HttpServlet {
 		} else if(command.equals("view_input")) {
 			url="./article/create_article.jsp";
 		} else if(command.equals("delete")) {
-			
+			int no = Integer.parseInt(req.getParameter("articleNO"));
+			boolean flag = service.deleteArticle(no);
+			if(flag) {
+				url="/board?cmd=list";
+			} else {
+				req.setAttribute("message", "remove fail");	
+			}
 		}
 		RequestDispatcher rd = req.getRequestDispatcher(url);
 		rd.forward(req, resp);
