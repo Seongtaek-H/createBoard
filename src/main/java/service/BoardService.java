@@ -36,4 +36,17 @@ public class BoardService {
 		flag = boardDAO.removeArticle(no);
 		return flag;
 	}
+	
+	public BoardVO serchArticle(int no) {
+		BoardVO vo = null;
+		vo = new BoardDAO().selectArticle(no);
+		return vo;
+	}
+	
+	public boolean updateArticle(BoardVO vo) {
+		boolean flag=false;
+		flag=new BoardDAO().modifyArticle(vo);
+		return flag;
+	}
+	
 }

@@ -26,12 +26,12 @@
 %>
 	 <tr>
 		<td><%=vo.getNo() %></td>
-		<td><%=vo.getTitle() %></td>
+		<td><a href="/Board/board?cmd=view_article&articleNO=<%=vo.getNo()%>"><%=vo.getTitle() %></a></td>
 		<td><%=vo.getId() %></td>
 		<td><%=vo.getWriteDate() %></td>
 		<td>
-			<button>수정</button>
-			<a href="/Board/board?cmd=delete&articleNO=<%= vo.getNo()%>">삭제</a>
+			<a href="/Board/board?cmd=view_update&articleNO=<%= vo.getNo()%>"><button>수정</button></a>
+			<a href="/Board/board?cmd=delete&articleNO=<%= vo.getNo()%>"><button>삭제</button></a>
 		</td>
 	</tr>
 <%} %>

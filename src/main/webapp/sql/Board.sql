@@ -14,5 +14,7 @@ insert into board(title, content, id) values('세번째 게시글','세번째 �
 
 select * from board;
 select articleNO,title,content,id,writeDate from board order by articleNO desc;
+select title,content,id,writeDate from board where articleNO=2;
+update board set title="수정",content="수정테스트",id="테스트" where articleNO=20;
 
 drop table board;

@@ -96,8 +96,66 @@ public class BoardDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			ConnectionController.closeAll(con, pstmt, null);
 		}
 		return flag;
 		
 	}
+	
+	public BoardVO selectArticle(int no) {
+		BoardVO vo = null;
+		String sql ="select title,content,id,writeDate from board where articleNO=?";
+		Connection con = ConnectionController.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1,no);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String id = rs.getString("id");
+				vo=new BoardVO(title,content,id);
+				vo.setNo(no);
+				vo.setWriteDate(rs.getTimestamp("writeDate"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			ConnectionController.closeAll(con, pstmt, rs);
+		}
+		return vo;
+	}
+	
+	public boolean modifyArticle(BoardVO vo) {
+		boolean flag=false;
+		String sql = "update board set title=?,content=?,id=? where articleNO=?";
+		Connection con = ConnectionController.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getId());
+			pstmt.setInt(4, vo.getNo());
+			int affectedCount = pstmt.executeUpdate();
+			if(affectedCount>0) {
+				flag = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			ConnectionController.closeAll(con, pstmt, null);
+		}
+		return flag;
+	}
 }
+
+
+
+
+

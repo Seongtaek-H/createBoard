@@ -65,7 +65,7 @@ public class BoardVO {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return no+", " + title+", " + id+", " + writeDate;
+		return no+", " + title+", " +content+","+ id+", " + writeDate;
 	}
 
 }
