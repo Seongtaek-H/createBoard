@@ -7,16 +7,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>새글 등록</title>
+<title>답글 등록</title>
 
 </head>
 <body>
 <%
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	String now = sdf.format(new Date());
-
+	BoardVO vo = (BoardVO)request.getAttribute("reply");
+	
+	out.print(vo.getGroupNO());
 %>
-<form action="/Board/board?cmd=create" method="post">
+<form action="/Board/board?cmd=create_reply&groupNO=<%=vo.getGroupNO()%>" method="post">
 	<table>
 		<tr>
 			<td>제목</td>
@@ -38,7 +40,7 @@
 			<td><input type="text" name="" value="<%=now%>" readonly="readonly"></td>
 		</tr>
 		<tr>
-			<td><input type="submit" value="등록"></td>
+			<td><input type="submit" value="답글등록"></td>
 			<td></td>
 			<td></td>
 		</tr>

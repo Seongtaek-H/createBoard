@@ -25,7 +25,7 @@ public class BoardService {
 		return list;
 	}
 
-	public boolean createArticel(BoardVO vo) {
+	public boolean createArticle(BoardVO vo) {
 		boolean flag = false;
 		flag = boardDAO.insertArticle(vo);
 		return flag;
@@ -48,5 +48,15 @@ public class BoardService {
 		flag=new BoardDAO().modifyArticle(vo);
 		return flag;
 	}
+	public BoardVO makeGroup(int groupNO) {
+		BoardVO vo = null;
+		vo=new BoardDAO().createGroup(groupNO);
+		return vo;
+	}
 	
+	public boolean createReply(BoardVO vo) {
+		boolean flag = false;
+		flag = boardDAO.insertReply(vo);
+		return flag;
+	}
 }

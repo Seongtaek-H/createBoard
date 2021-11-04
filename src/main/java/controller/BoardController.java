@@ -56,11 +56,11 @@ public class BoardController extends HttpServlet {
 			String content=req.getParameter("content");
 			String id = req.getParameter("id");
 			BoardVO vo = new BoardVO(title,content,id);
-			boolean flag = service.createArticel(vo);
+			boolean flag = service.createArticle(vo);
 			if(flag) {
 				url = "/board?cmd=list";
 			} else {
-				req.setAttribute("message", "input fail");
+				System.out.println("글생성실패");
 			}
 			
 		} else if(command.equals("view_input")) {
@@ -72,7 +72,7 @@ public class BoardController extends HttpServlet {
 			if(flag) {
 				url="/board?cmd=list";
 			} else {
-				req.setAttribute("message", "remove fail");	
+				System.out.println("삭제실패");
 			}
 			
 		} else if(command.equals("view_update")) {
@@ -97,6 +97,30 @@ public class BoardController extends HttpServlet {
 			} else {
 				System.out.println("수정실패");
 			}			
+		} else if(command.equals("view_reply")) {
+			int groupNO = Integer.parseInt(req.getParameter("groupNO"));
+			BoardVO vo = service.makeGroup(groupNO);
+			req.setAttribute("reply", vo);
+			System.out.println(vo);
+//			vo.setGroupNO(groupNO);
+			url="./article/create_reply.jsp";
+
+		} else if(command.equals("create_reply")) {
+
+			String title=req.getParameter("title");
+			String content=req.getParameter("content");
+			String id = req.getParameter("id");
+			BoardVO vo = new BoardVO(title,content,id);
+			System.out.println(vo);
+			System.out.println(req.getParameter("groupNO"));
+			int groupNO = Integer.parseInt(req.getParameter("groupNO"));
+			vo.setGroupNO(groupNO);
+			boolean flag = service.createReply(vo);
+			if(flag) {
+				url = "/board?cmd=list";
+			} else {
+				System.out.println("답글실패");
+			}
 		}
 		
 		RequestDispatcher rd = req.getRequestDispatcher(url);

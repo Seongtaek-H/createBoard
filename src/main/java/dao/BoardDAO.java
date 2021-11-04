@@ -29,7 +29,7 @@ public class BoardDAO {
 		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
 		Connection con = ConnectionController.getConnection();
 		String sql = "select articleNO,title,content,id,writeDate from board "
-				+ "order by articleNO desc";
+				+ "order by groupNO desc, depth, articleNO desc" ;
 		Statement stmt=null;
 		ResultSet rs=null;
 		BoardVO vo = null;
@@ -58,7 +58,7 @@ public class BoardDAO {
 
 	public boolean insertArticle(BoardVO vo) {
 		boolean flag = false;
-		String sql = "insert into board(title, content, id) values(?,?,?);";
+		String sql = "insert into board(groupNO, title, content, id) values((select last_insert_id()+1),?,?,?)";
 		Connection con = ConnectionController.getConnection();
 		PreparedStatement pstmt = null;
 		try {
@@ -129,6 +129,33 @@ public class BoardDAO {
 		}
 		return vo;
 	}
+	public BoardVO createGroup(int groupNO) {
+		BoardVO vo = null;
+		String sql ="select * from board where GroupNO=?";
+		Connection con = ConnectionController.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1,groupNO);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String id = rs.getString("id");
+				vo=new BoardVO(title,content,id);
+				vo.setGroupNO(groupNO);
+				vo.setWriteDate(rs.getTimestamp("writeDate"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			ConnectionController.closeAll(con, pstmt, rs);
+		}
+		return vo;
+		
+	}
 	
 	public boolean modifyArticle(BoardVO vo) {
 		boolean flag=false;
@@ -143,6 +170,33 @@ public class BoardDAO {
 			pstmt.setInt(4, vo.getNo());
 			int affectedCount = pstmt.executeUpdate();
 			if(affectedCount>0) {
+				flag = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			ConnectionController.closeAll(con, pstmt, null);
+		}
+		return flag;
+	}
+	
+	public boolean insertReply(BoardVO vo) {
+		boolean flag=false;
+		String sql = "insert into board(groupNO, depth, title, content, id) values(?,(select last_insert_id()+1),?,?,?)";
+		Connection con = ConnectionController.getConnection();
+		PreparedStatement pstmt = null;
+		System.out.println(vo.getGroupNO());
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, vo.getGroupNO());
+			pstmt.setString(2, "	RE"+vo.getTitle());
+			pstmt.setString(3, vo.getContent());
+			pstmt.setString(4, vo.getId());
+			
+			int affectedCount = pstmt.executeUpdate();
+			if(affectedCount>0) {
+				System.out.println("답글등록이 완료되었습니다.");
 				flag = true;
 			}
 		} catch (SQLException e) {

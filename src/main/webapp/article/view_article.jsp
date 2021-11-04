@@ -19,7 +19,7 @@
 	<table>
 <% 
 	BoardVO vo = (BoardVO)request.getAttribute("view");
-//	out.print(vo.getNo());
+//	out.print(vo.getGroupNO());
 %>
 		<tr>
 			<td>제목</td>
@@ -39,9 +39,9 @@
 			<td><input type="text" name="" value="<%=vo.getWriteDate() %>" readonly="readonly"/></td>
 		</tr>
 		<tr>
+			<td><a href="/Board/board?cmd=view_reply&groupNO=<%= vo.getNo()%>">답글</a></td>
 			<td><a href="/Board/board?cmd=view_update&articleNO=<%= vo.getNo()%>">수정</a></td>
 			<td><a href="/Board/board?cmd=delete&articleNO=<%= vo.getNo()%>">삭제</a></td>
-			<td></td>
 		</tr>
 	</table>
 	

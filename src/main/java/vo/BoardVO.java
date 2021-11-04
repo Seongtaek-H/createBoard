@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 public class BoardVO {
 	
 	private int no;
+	private int groupNO;
+	private int depth;
 	private String title;
 	private String content;
 	private String id;
@@ -17,6 +19,26 @@ public class BoardVO {
 	
 	}
 	
+
+	public int getGroupNO() {
+		return groupNO;
+	}
+
+
+	public void setGroupNO(int groupNO) {
+		this.groupNO = groupNO;
+	}
+
+
+	public int getDepth() {
+		return depth;
+	}
+
+
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+
 
 	public int getNo() {
 		return no;
@@ -65,7 +87,7 @@ public class BoardVO {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return no+", " + title+", " +content+","+ id+", " + writeDate;
+		return no+", " +groupNO+", "+ title+", " +content+","+ id+", " + writeDate;
 	}
 
 }
